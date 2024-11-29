@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Tiny Workspace</title>
+  <link rel="stylesheet" href="./desktop_style.css">
+  <link rel="stylesheet" href="./window.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Orbitron:wght@400..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="container">
+    <div id="desktop">
+      <div class="icon" draggable="true" data-id="trash"><img class="icon_image" src="./media/trash.png" alt="Trashbin icon">Trashbin</div>
+      <div class="icon" draggable="true" data-id="mail"><img class="icon_image" src="./media/mail.png" alt="Trashbin icon">Mail</div>
+      <div class="icon" draggable="true" data-id="explorer"><img class="icon_image" src="./media/explorer.png" alt="Trashbin icon">Explorer</div>
+      <div class="icon" draggable="true" data-id="calculator"><img class="icon_image" src="./media/calculator.png" alt="Calculator icon">Calculator</div>
+
+      <div class="window" id="app-calculator">
+
+        <div class="window_header">
+          <div class="window_icon">
+              <image class="window_icon_image" src="./media/calculator.png" alt="icon of a calculator window" ></image>
+          </div>
+          <div class="window_name">
+              <p>Calculator</p>
+          </div>
+          <div class="button">_</div>
+          <div class="button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrows-fullscreen" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M5.828 10.172a.5.5 0 0 0-.707 0l-4.096 4.096V11.5a.5.5 0 0 0-1 0v3.975a.5.5 0 0 0 .5.5H4.5a.5.5 0 0 0 0-1H1.732l4.096-4.096a.5.5 0 0 0 0-.707m4.344 0a.5.5 0 0 1 .707 0l4.096 4.096V11.5a.5.5 0 1 1 1 0v3.975a.5.5 0 0 1-.5.5H11.5a.5.5 0 0 1 0-1h2.768l-4.096-4.096a.5.5 0 0 1 0-.707m0-4.344a.5.5 0 0 0 .707 0l4.096-4.096V4.5a.5.5 0 1 0 1 0V.525a.5.5 0 0 0-.5-.5H11.5a.5.5 0 0 0 0 1h2.768l-4.096 4.096a.5.5 0 0 0 0 .707m-4.344 0a.5.5 0 0 1-.707 0L1.025 1.732V4.5a.5.5 0 0 1-1 0V.525a.5.5 0 0 1 .5-.5H4.5a.5.5 0 0 1 0 1H1.732l4.096 4.096a.5.5 0 0 1 0 .707"/>
+            </svg>
+          </div>
+          <div class="button close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+              <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="window_content"></div>
+      </div>
+    </div>
+    
+    <div id="taskbar">
+        <div id="launch"><img class="win_icon" src="./media/win.png" alt="windows icon"></div>
+        <div id="taskbar_container"></div>
+        <div id="taskbar_time"></div>
+        <div id="collapse_all"></div>
+    </div>
+  </div>
+
+  <script src="./baseBehavior/iconBehavior.js" charset="utf-8"></script>
+  <script src="./baseBehavior/windowBehavior.js" charset="utf-8"></script>
+</body>
+</html>

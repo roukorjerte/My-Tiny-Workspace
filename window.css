@@ -1,0 +1,85 @@
+.window {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border: 2px solid #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    pointer-events: all; 
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.window.show {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.window_header{
+    height: 40px;
+    background-color: rgba(49, 62, 106, 0.8);
+    backdrop-filter: blur(10px) saturate(150%);
+    border-bottom: 2px solid rgb(255, 255, 255);
+    border-radius: 10px 10px 0 0; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+
+.window_icon{
+    height: 40px;
+    width: 40px;
+    margin-left: 8px;
+}
+
+.window_icon_image{
+    height: 36px;
+    width: 36px;
+}
+
+.window_name{
+    flex-grow: 1;
+    height: 40px;
+    justify-content: center;
+    align-items: center;
+    cursor: grab;
+}
+
+.window_name p{
+    margin: 10px;
+}
+
+.button{
+    display: flex;
+    width: 34px;
+    height: 34px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.button.close{
+    margin-right: 5px;
+}
+
+.button:hover{
+    background-color: rgba(18, 24, 44, 0.5);
+    border: 1px solid rgba(244, 212, 250, 0.404); 
+}
+
+.button.close:hover{
+    background-color: rgba(238, 24, 106, 0.5);
+}
+
+.window_content{
+    background-color: rgba(224, 205, 205, 0.404);
+    backdrop-filter: blur(10px) saturate(150%);
+    flex-grow: 1;
+    border-radius: 0 0 10px 10px; 
+}
