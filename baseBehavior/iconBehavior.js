@@ -46,6 +46,9 @@ function positionIcons() {
     });
 }
 
+//этот код результирует в баг, что когда пользователь уменьшает экран а потом возвращает его в норм позицию,
+// то где раньше находились иконки теперь воспринимается как занятое пространство. ПОФИКСИТЬ
+
 window.addEventListener("resize", positionIcons);
 positionIcons();
 
@@ -114,11 +117,21 @@ desktop.addEventListener("drop", (event) => {
 
     if (occupiedCells.has(cellKey)) {
         alert("This cell is already occupied!");
+        
+        const initialPos = initialPositions.get(draggedIcon);
+        draggedIcon.style.gridColumnStart = initialPos.column;
+        draggedIcon.style.gridRowStart = initialPos.row;
+
+        occupiedCells.add(`${initialPos.column},${initialPos.row}`);
     } else {
         draggedIcon.style.gridColumnStart = column + 1;
         draggedIcon.style.gridRowStart = row + 1;
 
         occupiedCells.add(cellKey);
+
+        const initialPos = initialPositions.get(draggedIcon);
+        const initialCellKey = `${initialPos.column},${initialPos.row}`;
+        occupiedCells.delete(initialCellKey);
 
         initialPositions.set(draggedIcon, { column: column + 1, row: row + 1 });
     }
@@ -144,3 +157,4 @@ function applyHoverStyle(index) {
 function removeHoverStyle(index) {
     icons[index].classList.remove("hovered");
 }
+
