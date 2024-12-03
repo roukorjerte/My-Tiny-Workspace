@@ -2,9 +2,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const windows = document.querySelectorAll(".window");
     const taskbarContainer = document.getElementById('taskbar_container');
     const desktopIcons = document.querySelectorAll('.icon');
-    
-    
+    const closeButton = document.querySelectorAll(".button.close");
   
+    //function allowing to drag and drop any window to new place
     windows.forEach(window => {
       const header = window.querySelector(".window_name");
       
@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+    //if any icon was clicked, calls openApp function to open window of related to the icon app
     desktopIcons.forEach(icon => {
         icon.addEventListener('dblclick', () => {
           const appId = icon.dataset.id;
@@ -43,14 +44,14 @@ document.addEventListener('DOMContentLoaded', () => {
             openApp(appWindow, appId, icon);
           }
         });
-      });
+    });
     
-      function openApp(appWindow, appId, icon) {
-        // Показать окно приложения
+    //launches an app associated with an icon
+    function openApp(appWindow, appId, icon) {
         appWindow.classList.add('show');
-        appWindow.style.zIndex = 1000; // Переместить на передний план
+        appWindow.style.zIndex = 1000;
     
-        // Добавить иконку в панель задач, если ее там нет
+        //adding icon to the taskbar if its not present
         const existingTaskbarIcon = taskbarContainer.querySelector(`.taskbar_icon[data-id="${appId}"]`);
         if (!existingTaskbarIcon) {
           const taskbarIcon = document.createElement('div');
@@ -60,16 +61,23 @@ document.addEventListener('DOMContentLoaded', () => {
           taskbarIcon.addEventListener('click', () => toggleAppWindow(appWindow, taskbarIcon));
           taskbarContainer.appendChild(taskbarIcon);
         }
-      }
+    }
     
-      function toggleAppWindow(appWindow, taskbarIcon) {
-        // Показать или свернуть окно приложения
+    //function showing or hiding the window
+    function toggleAppWindow(appWindow) {
         if (appWindow.classList.contains("show")) {
             appWindow.classList.remove('show');
         } else {
             appWindow.classList.add('show');
         }
-      }
+    }
 
-    
+    document.querySelectorAll('.button.collapse').forEach(collapseButton => {
+      collapseButton.addEventListener('click', () => {
+          const appWindow = collapseButton.closest('.window'); 
+          if (appWindow) {
+              appWindow.classList.remove('show'); 
+          }
+      });
+  });
   });

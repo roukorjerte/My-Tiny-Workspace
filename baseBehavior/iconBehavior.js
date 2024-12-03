@@ -5,16 +5,57 @@ let draggedIcon = null;
 let currentIcon = null;
 const occupiedCells = new Set();
 
-icons.forEach((icon, index) => {
+const ICON_SIZE = 110;
+const GAP = 10;
 
-    // If the icon was clicked applies the "pressed" style to it
+const initialPositions = new Map();
+
+function calculateColumnsCount() {
+    const desktopWidth = desktop.offsetWidth;
+    const cellSize = ICON_SIZE + GAP;
+    return Math.floor(desktopWidth / cellSize);
+}
+
+function calculateRowsCount() {
+    const desktopHeight = desktop.offsetHeight;
+    const cellSize = ICON_SIZE + GAP;
+    return Math.floor(desktopHeight / cellSize);
+}
+
+function positionIcons() {
+    const rowsCount = calculateRowsCount();
+    let currentColumn = 0;
+    let currentRow = 0;
+
+    icons.forEach((icon, index) => {
+        const initialColumn = currentColumn + 1;
+        const initialRow = currentRow + 1;
+        initialPositions.set(icon, { column: initialColumn, row: initialRow });
+
+        icon.style.gridColumnStart = initialColumn;
+        icon.style.gridRowStart = initialRow;
+
+        currentRow++;
+
+        if (currentRow >= rowsCount) {
+            currentRow = 0;
+            currentColumn++;
+        }
+
+        occupiedCells.add(`${initialColumn},${initialRow}`);
+    });
+}
+
+window.addEventListener("resize", positionIcons);
+positionIcons();
+
+icons.forEach((icon, index) => {
     icon.addEventListener("click", (event) => {
         event.stopPropagation(); 
-        toggleBackgroundForIcon(index);
+        togglePressedState(index);
     });
-  
+
     icon.addEventListener("dragstart", () => {
-        // Mark the starting position as unoccupied
         const startColumn = icon.style.gridColumnStart || "auto";
         const startRow = icon.style.gridRowStart || "auto";
         if (startColumn !== "auto" && startRow !== "auto") {
@@ -30,18 +71,15 @@ icons.forEach((icon, index) => {
         draggedIcon = null;
     });
 
-    //If icon is hovered applies "hovered" style to it
-    icon.addEventListener('mouseenter', () => {
-        onHoverStyle(index);
+    icon.addEventListener("mouseenter", () => {
+        applyHoverStyle(index);
     });
 
-    //If icon is not hovered removes "hovered" style from it
-    icon.addEventListener('mouseleave', () => {
-        offHoverStyle(index);
+    icon.addEventListener("mouseleave", () => {
+        removeHoverStyle(index);
     });
 });
 
-// this event checks if there was clicks anywhere on the screen, and if yes removes "pressed"style from the last selected icon
 document.addEventListener("click", () => {
     if (currentIcon !== null) {
         icons[currentIcon].classList.remove("pressed");
@@ -49,73 +87,60 @@ document.addEventListener("click", () => {
     }
 });
 
-
-// Prevent default behavior on dragover
 desktop.addEventListener("dragover", (event) => {
     event.preventDefault();
 });
 
-// Handle drop event
 desktop.addEventListener("drop", (event) => {
     event.preventDefault();
 
-    if (!draggedIcon) return; // Ensure there's an icon being dragged
+    if (!draggedIcon) return;
 
-    // Get the desktop bounding box
     const desktopRect = desktop.getBoundingClientRect();
-
-    // Get the drop position relative to the desktop
     const dropX = event.clientX - desktopRect.left;
     const dropY = event.clientY - desktopRect.top;
 
-    // Calculate the closest grid cell position
-    const cellSize = 110 + 10; // Icon size + gap
-    const column = Math.round(dropX / cellSize);
-    const row = Math.round(dropY / cellSize);
+    const column = Math.floor(dropX / (ICON_SIZE + GAP));
+    const row = Math.floor(dropY / (ICON_SIZE + GAP));
 
-    const cellKey = `${column + 1},${row + 1}`; // Generate a unique key for the cell
+    const maxColumns = calculateColumnsCount();
+    const maxRows = calculateRowsCount();
 
-    // Check if the cell is already occupied
-    if (!occupiedCells.has(cellKey)) {
-        // Update the position of the dragged icon in the grid
-        draggedIcon.style.gridColumnStart = column + 1; // 1-based index
+    if (column >= maxColumns || row >= maxRows) {
+        return;
+    }
+
+    const cellKey = `${column + 1},${row + 1}`;
+
+    if (occupiedCells.has(cellKey)) {
+        alert("This cell is already occupied!");
+    } else {
+        draggedIcon.style.gridColumnStart = column + 1;
         draggedIcon.style.gridRowStart = row + 1;
 
-        // Mark the cell as occupied
         occupiedCells.add(cellKey);
-    } else {
-        // If occupied, reset the icon to its previous position
-        alert("This cell is already occupied!");
+
+        initialPositions.set(draggedIcon, { column: column + 1, row: row + 1 });
     }
 });
 
-//function that adds or removes the "pressed" style to the icon
-function toggleBackgroundForIcon(index) {
-    //if user clicks on the icon 2nd time, the "pressed" style is removed, the currentIcon is now null
+function togglePressedState(index) {
     if (currentIcon === index) {
-      icons[currentIcon].classList.remove("pressed");
-      currentIcon = null; 
-    } else {
-
-        //if there is already clicked icon, it removes the stelt "pressed" from it, and applies style to the currently clicked icon
-      if (currentIcon !== null) {
         icons[currentIcon].classList.remove("pressed");
+        currentIcon = null;
+    } else {
+        if (currentIcon !== null) {
+            icons[currentIcon].classList.remove("pressed");
+        }
         icons[index].classList.add("pressed");
-        currentIcon = index; 
-      }
-
-      //if there are no icons that has style "pressed", it applies the style to the current icon and sets it currentIcon
-      else{
-        icons[index].classList.add("pressed");
-      currentIcon = index; 
-      }
+        currentIcon = index;
     }
-};
+}
 
-function onHoverStyle(index) {
+function applyHoverStyle(index) {
     icons[index].classList.add("hovered");
 }
 
-function offHoverStyle(index) {
+function removeHoverStyle(index) {
     icons[index].classList.remove("hovered");
 }
