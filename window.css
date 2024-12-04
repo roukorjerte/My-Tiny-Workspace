@@ -92,3 +92,15 @@
     width: 355px;
     height: 510px;
 }
+
+.window_name p, .window_icon_image{
+    user-select: none;
+    pointer-events: none;
+}
+
+/* temporary solution */
+.window_content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

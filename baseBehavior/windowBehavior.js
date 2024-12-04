@@ -63,7 +63,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const existingTaskbarIcon = taskbarContainer.querySelector(`.taskbar_icon[data-id="${appId}"]`);
         if (existingTaskbarIcon) {
-            return; 
+            if (appWindow.classList.contains("show")) {
+                return;
+            }
+            appWindow.classList.add("show");
+            appWindow.style.zIndex = currentZIndex++;
+            return;
         }
     
         if (!appWindow.dataset.id) {
@@ -83,27 +88,25 @@ document.addEventListener("DOMContentLoaded", () => {
         appWindow.classList.add("show");
         appWindow.style.zIndex = currentZIndex++;
     
-        // Adding the icon to the taskbar if it's not already present
         const taskbarIcon = document.createElement("div");
         taskbarIcon.className = "taskbar_icon";
         taskbarIcon.dataset.id = appId;
         taskbarIcon.innerHTML = `
             <img class="taskbarIcon_image" src="${icon.querySelector("img").src}" alt="${icon.textContent.trim()}">
         `;
-        taskbarIcon.addEventListener("click", () => toggleAppWindow(appWindow));
+        taskbarIcon.addEventListener("click", () => { 
+            if (appWindow.classList.contains("show")) {
+                appWindow.classList.remove("show");
+            } else {
+                appWindow.classList.add("show");
+                appWindow.style.zIndex = currentZIndex++;
+            }            
+        });
+    
         taskbarContainer.appendChild(taskbarIcon);
-    }    
-
-    function toggleAppWindow(appWindow) {
-        if (appWindow.classList.contains("show")) {
-            appWindow.classList.remove("show");
-        } else {
-            appWindow.classList.add("show");
-        }
-
-        appWindow.style.zIndex = currentZIndex++;
     }
-
+     
+    //what happens if user clicked "collapse" button
     document.querySelectorAll(".button.collapse").forEach(collapseButton => {
         collapseButton.addEventListener("click", () => {
             const appWindow = collapseButton.closest(".window");
@@ -113,6 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
+    //what happens if user clicked "close" button
     document.querySelectorAll(".button.close").forEach(closeButton => {
       closeButton.addEventListener("click", () => {
           const appWindow = closeButton.closest(".window");
@@ -128,6 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
+    //what happens if user clicked "fullscreen" button
     document.querySelectorAll(".button.fullscreen").forEach(fullscreenButton => {
       fullscreenButton.addEventListener("click", () => {
           const appWindow = fullscreenButton.closest(".window");
@@ -145,7 +150,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 appWindow.style.left = "0px";
                 appWindow.style.width = `${desktopRect.width}px`;
                 appWindow.style.height = `${desktopRect.height}px`;
-
+                appWindow.style.zIndex = currentZIndex++;
                 fullscreenButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fullscreen-exit" viewBox="0 0 16 16"><path d="M5.5 0a.5.5 0 0 1 .5.5v4A1.5 1.5 0 0 1 4.5 6h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5m5 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 10 4.5v-4a.5.5 0 0 1 .5-.5M0 10.5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 6 11.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5m10 1a1.5 1.5 0 0 1 1.5-1.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0z"/></svg>';
             }
             else{
