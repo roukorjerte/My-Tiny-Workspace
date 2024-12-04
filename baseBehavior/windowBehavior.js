@@ -1,83 +1,163 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     const windows = document.querySelectorAll(".window");
-    const taskbarContainer = document.getElementById('taskbar_container');
-    const desktopIcons = document.querySelectorAll('.icon');
-    const closeButton = document.querySelectorAll(".button.close");
-  
-    //function allowing to drag and drop any window to new place
-    windows.forEach(window => {
-      const header = window.querySelector(".window_name");
-      
-      let isDragging = false;
-      let offsetX, offsetY;
-  
-      header.addEventListener("mousedown", (e) => {
-        isDragging = true;
-        offsetX = e.clientX - window.offsetLeft;
-        offsetY = e.clientY - window.offsetTop;
-        
-        header.style.cursor = "grabbing";
-      });
-  
-      document.addEventListener("mousemove", (e) => {
-        if (isDragging) {
-          const x = e.clientX - offsetX;
-          const y = e.clientY - offsetY;
-  
-          window.style.left = `${x}px`;
-          window.style.top = `${y}px`;
-        }
-      });
-  
-      document.addEventListener("mouseup", () => {
-        isDragging = false;
-        header.style.cursor = "grab";
-      });
-    });
+    const taskbarContainer = document.getElementById("taskbar_container");
+    const desktopIcons = document.querySelectorAll(".icon");
+    let previousPosition = { top: 0, left: 0 };
+    let currentZIndex = 1000;
 
-    //if any icon was clicked, calls openApp function to open window of related to the icon app
-    desktopIcons.forEach(icon => {
-        icon.addEventListener('dblclick', () => {
-          const appId = icon.dataset.id;
-          const appWindow = document.getElementById(`app-${appId}`);
-          if (appWindow) {
-            openApp(appWindow, appId, icon);
-          }
+    // Function to allow dragging and dropping any window to a new position
+    windows.forEach(window => {
+        const header = window.querySelector(".window_name");
+
+        let isDragging = false;
+        let offsetX, offsetY;
+
+        header.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            offsetX = e.clientX - window.offsetLeft;
+            offsetY = e.clientY - window.offsetTop;
+            header.style.cursor = "grabbing";
+            window.style.zIndex = currentZIndex++;
+        });
+
+        document.addEventListener("mousemove", (e) => {
+            if (isDragging) {
+                const desktopRect = document.getElementById("desktop").getBoundingClientRect();
+                const taskbarHeight = document.getElementById("taskbar").offsetHeight;
+    
+                let x = e.clientX - offsetX;
+                let y = e.clientY - offsetY;
+    
+                x = Math.max(desktopRect.left, Math.min(desktopRect.right - window.offsetWidth, x));
+    
+                y = Math.max(desktopRect.top, Math.min(desktopRect.bottom - window.offsetHeight, y));
+    
+                window.style.left = `${x}px`;
+                window.style.top = `${y}px`;
+
+                previousPosition = { top: y, left: x };
+            }
+        });
+
+        document.addEventListener("mouseup", () => {
+            if (isDragging) {
+                isDragging = false;
+                header.style.cursor = "grab";
+            }
         });
     });
-    
-    //launches an app associated with an icon
+
+    // If any icon is clicked, calls openApp function to open the window of the related app
+    desktopIcons.forEach(icon => {
+        icon.addEventListener("dblclick", () => {
+            const appId = icon.dataset.id;
+            const appWindow = document.getElementById(`app-${appId}`);
+            if (appWindow) {
+                openApp(appWindow, appId, icon);
+            }
+        });
+    });
+
+    // Launches an app associated with an icon
     function openApp(appWindow, appId, icon) {
-        appWindow.classList.add('show');
-        appWindow.style.zIndex = 1000;
-    
-        //adding icon to the taskbar if its not present
+
         const existingTaskbarIcon = taskbarContainer.querySelector(`.taskbar_icon[data-id="${appId}"]`);
-        if (!existingTaskbarIcon) {
-          const taskbarIcon = document.createElement('div');
-          taskbarIcon.className = 'taskbar_icon';
-          taskbarIcon.dataset.id = appId;
-          taskbarIcon.innerHTML = `<img class="taskbarIcon_image" src="${icon.querySelector('img').src}" alt="${icon.textContent.trim()}">`;
-          taskbarIcon.addEventListener('click', () => toggleAppWindow(appWindow, taskbarIcon));
-          taskbarContainer.appendChild(taskbarIcon);
+        if (existingTaskbarIcon) {
+            return; 
         }
-    }
     
-    //function showing or hiding the window
+        if (!appWindow.dataset.id) {
+            appWindow.dataset.id = appId;
+        }
+    
+        const desktopRect = document.getElementById("desktop").getBoundingClientRect();
+        const windowWidth = appWindow.offsetWidth;
+        const windowHeight = appWindow.offsetHeight;
+    
+        const x = desktopRect.left + (desktopRect.width - windowWidth) / 2;
+        const y = desktopRect.top + (desktopRect.height - windowHeight) / 2;
+    
+        appWindow.style.left = `${x}px`;
+        appWindow.style.top = `${y}px`;
+    
+        appWindow.classList.add("show");
+        appWindow.style.zIndex = currentZIndex++;
+    
+        // Adding the icon to the taskbar if it's not already present
+        const taskbarIcon = document.createElement("div");
+        taskbarIcon.className = "taskbar_icon";
+        taskbarIcon.dataset.id = appId;
+        taskbarIcon.innerHTML = `
+            <img class="taskbarIcon_image" src="${icon.querySelector("img").src}" alt="${icon.textContent.trim()}">
+        `;
+        taskbarIcon.addEventListener("click", () => toggleAppWindow(appWindow));
+        taskbarContainer.appendChild(taskbarIcon);
+    }    
+
     function toggleAppWindow(appWindow) {
         if (appWindow.classList.contains("show")) {
-            appWindow.classList.remove('show');
+            appWindow.classList.remove("show");
         } else {
-            appWindow.classList.add('show');
+            appWindow.classList.add("show");
         }
+
+        appWindow.style.zIndex = currentZIndex++;
     }
 
-    document.querySelectorAll('.button.collapse').forEach(collapseButton => {
-      collapseButton.addEventListener('click', () => {
-          const appWindow = collapseButton.closest('.window'); 
+    document.querySelectorAll(".button.collapse").forEach(collapseButton => {
+        collapseButton.addEventListener("click", () => {
+            const appWindow = collapseButton.closest(".window");
+            if (appWindow) {
+                appWindow.classList.remove("show");
+            }
+        });
+    });
+
+    document.querySelectorAll(".button.close").forEach(closeButton => {
+      closeButton.addEventListener("click", () => {
+          const appWindow = closeButton.closest(".window");
           if (appWindow) {
-              appWindow.classList.remove('show'); 
+              appWindow.classList.remove("show");
+
+              const appId = appWindow.dataset.id;
+              const taskbarIcon = taskbarContainer.querySelector(`.taskbar_icon[data-id="${appId}"]`);
+              if (taskbarIcon) {
+                  taskbarIcon.remove();
+              }
+          }
+      });
+    });
+
+    document.querySelectorAll(".button.fullscreen").forEach(fullscreenButton => {
+      fullscreenButton.addEventListener("click", () => {
+          const appWindow = fullscreenButton.closest(".window");
+          if (appWindow) {
+            const appIsInFullscreen = appWindow.dataset.fullscreen === "true";
+
+            if(!appIsInFullscreen){
+                previousPosition.top = appWindow.offsetTop;
+                previousPosition.left = appWindow.offsetLeft;
+
+                const desktopRect = document.getElementById("desktop").getBoundingClientRect();
+                appWindow.classList.add("fullscreen");
+                appWindow.dataset.fullscreen = "true";
+                appWindow.style.top = "0px";
+                appWindow.style.left = "0px";
+                appWindow.style.width = `${desktopRect.width}px`;
+                appWindow.style.height = `${desktopRect.height}px`;
+
+                fullscreenButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fullscreen-exit" viewBox="0 0 16 16"><path d="M5.5 0a.5.5 0 0 1 .5.5v4A1.5 1.5 0 0 1 4.5 6h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5m5 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 10 4.5v-4a.5.5 0 0 1 .5-.5M0 10.5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 6 11.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5m10 1a1.5 1.5 0 0 1 1.5-1.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0z"/></svg>';
+            }
+            else{
+                appWindow.classList.remove("fullscreen");
+                appWindow.dataset.fullscreen = "false";
+                appWindow.style.width = "";  
+                appWindow.style.height = "";
+                appWindow.style.top = `${previousPosition.top}px`;
+                appWindow.style.left = `${previousPosition.left}px`;
+                fullscreenButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fullscreen" viewBox="0 0 16 16"><path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5"/></svg>';                
+            }
           }
       });
   });
-  });
+});
