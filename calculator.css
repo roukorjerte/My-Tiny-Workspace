@@ -1,0 +1,103 @@
+.window_content.calculator, .entered_numbers{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.window_content.calculator{
+    height: 488px;
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+#previous_numbers{
+    width: 100%;
+    height: 60%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    color: rgba(49, 62, 106, 0.6);
+    font-size: 22px;
+}
+
+#last_number{
+    width: 100%;
+    height: 40%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    font-size: 40px;
+    font-weight:700;
+}
+
+.font_32{
+    font-size: 32px;
+}
+
+.font_26{
+    font-size: 26px;
+}
+
+#previous_numbers p,
+#last_number p {
+    white-space: nowrap;
+}
+
+.entered_numbers{
+    box-sizing: border-box;
+    padding: 15px;
+    padding-bottom: 0px;
+    height: 35%;
+    width: 100%;
+}
+
+.entered_numbers p{
+    margin: 0px;
+}
+
+.calculator_buttons{
+    box-sizing: border-box;
+    padding: 10px;
+    height: 75%;
+    width: 100%;
+    display: grid;
+    gap: 0px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    user-select: none;
+}
+
+.calc_button{
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 12px;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 22px;
+}
+
+.calc_button p{
+    margin: 0px;
+}
+
+.action{
+    background-color: rgba(224, 205, 205, 0.4);
+    color: rgb(38, 53, 116);
+}
+
+.number{
+    background-color: rgba(224, 205, 205, 0.8);
+}
+
+.equals{
+    background-color: rgba(49, 62, 106, 0.6);
+    color: white;
+}
+
+.calc_button:hover{
+    opacity: 0.8;
+}
