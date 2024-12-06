@@ -15,9 +15,9 @@
 
   <div class="container">
     <div id="desktop">
-      <div class="icon" draggable="true" data-id="trash"><img class="icon_image" src="./media/trash.png" alt="Trashbin icon">Trashbin</div>
-      <div class="icon" draggable="true" data-id="mail"><img class="icon_image" src="./media/mail.png" alt="Trashbin icon">Mail</div>
-      <div class="icon" draggable="true" data-id="explorer"><img class="icon_image" src="./media/explorer.png" alt="Trashbin icon">Explorer</div>
+      <div class="icon" draggable="true" data-id="trashbin"><img class="icon_image" src="./media/trash.png" alt="Trashbin icon">Trashbin</div>
+      <div class="icon" draggable="true" data-id="mail"><img class="icon_image" src="./media/mail.png" alt="Mail icon">Mail</div>
+      <div class="icon" draggable="true" data-id="clock"><img class="icon_image" src="./media/clock.png" alt="Clock icon">Clock</div>
       <div class="icon" draggable="true" data-id="calculator"><img class="icon_image" src="./media/calculator.png" alt="Calculator icon">Calculator</div>
 
       <!--Calculator window -->
@@ -60,20 +60,20 @@
                   <path d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1z"/>
                 </svg>
               </div>
-              <div class="calc_button action">%</div>
-              <div class="calc_button action">/</div>
+              <div class="calc_button action" id="percent">%</div>
+              <div class="calc_button action" id="divide">/</div>
               <div class="calc_button number">7</div>
               <div class="calc_button number">8</div>
               <div class="calc_button number">9</div>
-              <div class="calc_button action">x</div>
+              <div class="calc_button action" id="multiply">x</div>
               <div class="calc_button number">4</div>
               <div class="calc_button number">5</div>
               <div class="calc_button number">6</div>
-              <div class="calc_button action">-</div>
+              <div class="calc_button action" id="minus">-</div>
               <div class="calc_button number">1</div>
               <div class="calc_button number">2</div>
               <div class="calc_button number">3</div>
-              <div class="calc_button action">+</div>
+              <div class="calc_button action" id="plus">+</div>
               <div class="calc_button action" id="reverse_symbol">
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus-slash-minus" viewBox="0 0 16 16">
                   <path d="m1.854 14.854 13-13a.5.5 0 0 0-.708-.708l-13 13a.5.5 0 0 0 .708.708M4 1a.5.5 0 0 1 .5.5v2h2a.5.5 0 0 1 0 1h-2v2a.5.5 0 0 1-1 0v-2h-2a.5.5 0 0 1 0-1h2v-2A.5.5 0 0 1 4 1m5 11a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5A.5.5 0 0 1 9 12"/>
@@ -81,7 +81,7 @@
               </div>
               <div class="calc_button number">0</div>
               <div class="calc_button number">.</div>
-              <div class="calc_button action equals">=</div>
+              <div class="calc_button action" id="equals">=</div>
           </div>
         </div>
       </div>
@@ -113,8 +113,64 @@
           <p> There is no app yet</p>
         </div>
       </div>
+      
+      <!--Clock app window -->
+      <div class="window" id="app-clock">
+
+        <div class="window_header">
+          <div class="window_icon">
+              <image class="window_icon_image" src="./media/clock.png" alt="icon of a clock window" ></image>
+          </div>
+          <div class="window_name">
+              <p>Clock</p>
+          </div>
+          <div class="button collapse">_</div>
+          <div class="button fullscreen">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fullscreen" viewBox="0 0 16 16">
+              <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5"/>
+            </svg>
+          </div>
+          <div class="button close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+              <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="window_content">
+          <p> There is no app yet</p>
+        </div>
+      </div>
+
+      <!--Trashbin app window -->
+      <div class="window" id="app-trashbin">
+
+        <div class="window_header">
+          <div class="window_icon">
+              <image class="window_icon_image" src="./media/trash.png" alt="icon of a trashbin window" ></image>
+          </div>
+          <div class="window_name">
+              <p>Trashbin</p>
+          </div>
+          <div class="button collapse">_</div>
+          <div class="button fullscreen">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fullscreen" viewBox="0 0 16 16">
+              <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5"/>
+            </svg>
+          </div>
+          <div class="button close">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+              <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="window_content">
+          <p> There is no app yet</p>
+        </div>
+      </div>
+      
   </div>
-    
     <div id="taskbar">
         <div id="launch"><img class="win_icon" src="./media/win.png" alt="windows icon"></div>
         <div id="taskbar_container"></div>
