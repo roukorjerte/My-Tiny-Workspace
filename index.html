@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="./desktop_style.css">
   <link rel="stylesheet" href="./window.css">
   <link rel="stylesheet" href="./calculator.css">
+  <link rel="stylesheet" href="./mail.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Orbitron:wght@400..900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Flex:opsz,wght@8..144,100..1000&display=swap" rel="stylesheet">
@@ -109,8 +110,56 @@
           </div>
         </div>
 
-        <div class="window_content">
-          <p> There is no app yet</p>
+        <div class="window_content mail">
+          <div class="contacts_container">
+              <div class="person_contact granny">
+                <div class="avatar">
+                  <img src="./media/chats_data/avatars/grandma.jpg">
+                </div>
+                <div class="name">Grandma</div>
+                <div class="message_status">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-exclamation-lg" viewBox="0 0 16 16">
+                    <path d="M7.005 3.1a1 1 0 1 1 1.99 0l-.388 6.35a.61.61 0 0 1-1.214 0zM7 12a1 1 0 1 1 2 0 1 1 0 0 1-2 0"/>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="person_contact tyler">
+                <div class="avatar">
+                  <img src="./media/chats_data/avatars/tyler.jpg">
+                </div>                
+                <div class="name">Tyler</div>
+                <div class="message_status">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2" viewBox="0 0 16 16">
+                    <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0"/>
+                  </svg>
+                </div>
+              </div>
+
+              <div class="person_contact summer">
+                <div class="avatar">
+                  <img src="./media/chats_data/avatars/summer.jpg">
+                </div>                
+                <div class="name">Summer</div>
+                <div class="message_status">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-check2-all" viewBox="0 0 16 16">
+                    <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0"/>
+                    <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708"/>
+                  </svg>
+                </div>
+              </div>
+          </div>
+          <div class="chat_container">
+            <p class="placeholder">Choose contact to start talking</p>
+              <div id="name_tag" class="invisible_item">
+                <p class="invisible_item" id="name_tag_text">Lorem Ipsum</p>
+              </div>
+              <div id="messages">
+              </div>
+              <div id="answer_choice" class="invisible_item">
+                <p class="placeholder_choice">Enter your answer...</p>
+              </div>
+          </div>
         </div>
       </div>
       
@@ -182,5 +231,7 @@
   <script src="./baseBehavior/iconBehavior.js" charset="utf-8"></script>
   <script src="./baseBehavior/windowBehavior.js" charset="utf-8"></script>
   <script src="./appsBehavior/calculator.js" charset="utf-8"></script>
+  <script type="module" src="./appsBehavior/mailDialogueText.js"></script>
+  <script type="module" src="./appsBehavior/mail.js" charset="utf-8"></script>
 </body>
 </html>

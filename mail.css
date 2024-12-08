@@ -1,0 +1,156 @@
+#app-mail{
+    width: 750px;
+    height: 600px;
+}
+
+.window_content.mail{
+    display: flex;
+    flex-direction: row;
+}
+
+.contacts_container{
+    height: 100%;
+    width: 35%;
+    border-right: 2px solid rgba(49, 62, 106, 0.6);
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(248, 244, 244);
+}
+
+.person_contact{
+    width: 100%;
+    height: 80px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.person_contact:hover{
+    background-color: rgb(99,54,81);
+}
+
+.avatar img{
+    height: 56px;
+    width: 56px;
+    border-radius: 28px;
+}
+
+.avatar{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    width: 80px;
+    user-select: none;
+}
+
+.message_status{
+    height: 80px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.name{
+    flex-grow: 1;
+    font-size: 22px;
+    user-select: none;
+}
+
+.chat_container{
+    height: 100%;
+    width: 65%;
+    background-image: url(./media/chats_data/texture.jpg);
+    background-size: cover;
+    background-repeat: repeat;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+}
+
+#name_tag{
+    width: 100%;
+    height: 54px;
+    background-color: rgb(248, 244, 244);
+    border-bottom: 2px solid rgba(49, 62, 106, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+}
+
+#name_tag p{
+    margin: 0px;
+}
+
+#messages{
+    flex-grow: 1;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 456px;
+}
+
+.from_me{
+    align-self: flex-end;
+    background-color: rgb(99,54,81);
+    color: white;
+}
+
+.from_person{
+    align-self: flex-start;
+    background-color: white;
+
+}
+
+.message_text{
+    padding: 10px;
+    border: 2px solid rgba(49, 62, 106, 0.6);
+    border-radius: 20px;
+    width: fit-content;
+    margin: 10px;
+}
+
+#answer_choice{
+    width: 100%;
+    height: 44px;
+    background-color: white;
+    border-top: 2px solid rgba(49, 62, 106, 0.6);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    color: gray;
+    cursor: text;
+}
+
+.answer_option{
+    height: 80%;
+    width: 45%;
+    background-color: rgb(99,54,81);
+    border: 1px solid rgba(49, 62, 106, 0.6);
+    border-radius: 10px;
+    margin: 0px 10px;
+}
+
+.placeholder {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    color: gray;
+    text-align: center;
+    pointer-events: none;
+}
+
+.invisible_item {
+    visibility: hidden;
+}
