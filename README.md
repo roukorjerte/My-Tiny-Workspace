@@ -42,7 +42,6 @@ Simply open the [GitHub Pages link](https://roukorjerte.github.io/My-Tiny-Worksp
 - Add more apps like file explorer, notes, or calendar  
 - Enhance drag & drop and window snapping features
 
----
 
 ---
 
